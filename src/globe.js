@@ -217,11 +217,18 @@ function plotData() {
     scene.add(points);
 }
 
-function addPoint(lat, lng, size, color) {
-
+function coodinateToPosition(lat, lng, surfaceOffset, globeRadius){
     var phi = (90 - lat) * Math.PI / 180;
-    var theta = (0 - lng) * Math.PI / 180;
+	var theta = (0 - lng) * Math.PI / 180;
+	
+	var x = (globeRadius + surfaceOffset) * Math.sin(phi) * Math.cos(theta);
+	var y = (globeRadius + surfaceOffset) * Math.cos(phi);
+	var z = (globeRadius + surfaceOffset) * Math.sin(phi) * Math.sin(theta);
 
+	return {'x': x, 'y':y, 'z':z};
+}
+
+function addPoint(lat, lng, size, color) {
     var radius = 0.3;
     var height = 0.5;
     var segments = 10;
@@ -239,14 +246,21 @@ function addPoint(lat, lng, size, color) {
 
     var globeRadius = 200;
 
-    // position
-	point.position.x = globeRadius * Math.sin(phi) * Math.cos(theta);
-	point.position.y = globeRadius * Math.cos(phi);
-	point.position.z = globeRadius * Math.sin(phi) * Math.sin(theta);
+	var pos = coodinateToPosition(lat, lng, 0, globeRadius);
 
+    // position
+	point.position.x = pos.x;
+	point.position.y = pos.y;
+	point.position.z = pos.z;
+
+
+	var lightPos = coordinateToPosition(lat, lng, 15, globeRadius);
 	var light = new THREE.PointLight( 0xffffff, 6, 50, 1 );
-	light.position.set( 215 * Math.sin(phi) * Math.cos(theta),
-	  215 * Math.cos(phi), 215 * Math.sin(phi) * Math.sin(theta));
+	light.position.set( 
+		lightPos.x,
+		lightPos.y, 
+		lightPos.z
+	);
 	scene.add( light );
     pointLights.push(light);
 
