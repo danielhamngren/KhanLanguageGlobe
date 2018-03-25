@@ -217,7 +217,7 @@ function plotData() {
     scene.add(points);
 }
 
-function coodinateToPosition(lat, lng, surfaceOffset, globeRadius){
+function coordinateToPosition(lat, lng, surfaceOffset, globeRadius){
     var phi = (90 - lat) * Math.PI / 180;
 	var theta = (0 - lng) * Math.PI / 180;
 	
@@ -246,7 +246,7 @@ function addPoint(lat, lng, size, color) {
 
     var globeRadius = 200;
 
-	var pos = coodinateToPosition(lat, lng, 0, globeRadius);
+	var pos = coordinateToPosition(lat, lng, 0, globeRadius);
 
     // position
 	point.position.x = pos.x;
