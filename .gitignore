@@ -4,3 +4,4 @@ wikiglobe/
 src/jakob_experiment/three.js-master/
 node_modules/
 wikiglobe_trim/
+*.iml
